@@ -1,43 +1,40 @@
 import './App.css';
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      list: [],
-      item: '',
-    };
-  }
+function App() {
+  const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState('abc');
 
-  handleChange = (e) => {
-    this.setState({ item: e.target.value });
+  const handleChange = (e) => {
+    console.log(e)
+    setInput(e.target.value);
   };
 
-  handleAddItem = () => {
-    const newList = [...this.state.list, this.state.item];
-    this.setState({ list: newList, item: '' });
+  const resetInput = () => {
+    console.log('reset fired 🔥');
+    setInput('');
   };
 
-  render() {
-    console.log(this.state);
-    return (
-      <div className='App'>
-        <h1>Todo List</h1>
-        <input type='text' onChange={this.handleChange} />
-        <button onClick={this.handleAddItem}>Add</button>
-        <ul className='items-container'>
-          {this.state.list.map((item) => {
-            return (
-              <li key={item} className='todo'>
-                {item}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    );
-  }
+  const handleAddItem = () => {
+    setTodos([...todos, input]);
+    resetInput();
+  };
+
+  return (
+    <div className='App'>
+      <h1>Todo List</h1>
+      <input value={input} type='text' onChange={handleChange} />
+      <button onClick={handleAddItem}>Add</button>
+      <h3>My tasks</h3>
+
+      <ul className='todos-container'>
+        {todos.map((item) => {
+          console.log(todos);
+          return <li className='todo'>{item}</li>;
+        })}
+      </ul>
+    </div>
+  );
 }
 
 export default App;
